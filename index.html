@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAPATA PORTAL - 786 तामीर अली | मानव सुरक्षा</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+</head>
+<body>
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/918797221991?text=लापता%20पोर्टल%20से%20संपर्क:%20डेटा%20मिटाने%20हेतु%20एडमिन%20से%20संपर्क%20करें।" 
+       class="whatsapp-float" target="_blank" title="WhatsApp पर संपर्क करें">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">786</div>
+                <div class="logo-text">
+                    <h1>LAPATA PORTAL</h1>
+                    <p>मानव सुरक्षा - अक्ल की जीत | 786 तामीर अली</p>
+                </div>
+            </div>
+            <div class="language-switch">
+                <button class="lang-btn active" onclick="switchLanguage('hi')">हिंदी</button>
+                <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Disclaimer Banner -->
+        <div class="disclaimer-banner" data-lang="hi">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>अस्वीकरण:</strong> यह पोर्टल केवल सहायता के लिए है। प्रशासन या तामीर अली जी इसकी कोई कानूनी जिम्मेदारी नहीं लेते। उपयोगकर्ता अपने विवेक (अक्ल) का उपयोग करें।
+            </div>
+            <i class="fas fa-times close-disclaimer" onclick="closeDisclaimer()"></i>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab('register')" data-lang="hi">
+                    <i class="fas fa-user-plus"></i> पंजीकरण
+                </button>
+                <button class="tab-btn" onclick="openTab('search')" data-lang="hi">
+                    <i class="fas fa-search"></i> खोजें
+                </button>
+                <button class="tab-btn" onclick="openTab('data')" data-lang="hi">
+                    <i class="fas fa-database"></i> सभी डेटा
+                </button>
+                <button class="tab-btn" onclick="openTab('about')" data-lang="hi">
+                    <i class="fas fa-info-circle"></i> जानकारी
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Contents -->
+        <div class="tab-content active" id="register-tab">
+            <!-- Registration Form Content -->
+            <div class="tab-header">
+                <h2 data-lang="hi">नया पंजीकरण</h2>
+                <p class="subtitle" data-lang="hi">"The Seal of God" - फिंगरप्रिंट और चेहरे की पहचान</p>
+            </div>
+
+            <form id="registrationForm">
+                <!-- Basic Information -->
+                <div class="form-section">
+                    <h3 data-lang="hi">मूल जानकारी</h3>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName" data-lang="hi">पूरा नाम *</label>
+                            <input type="text" id="fullName" required placeholder="पूरा नाम दर्ज करें">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="age" data-lang="hi">उम्र (1-100) *</label>
+                            <input type="number" id="age" min="1" max="100" required placeholder="उम्र">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="address" data-lang="hi">पता</label>
+                            <input type="text" id="address" placeholder="पूरा पता">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biometric Section -->
+                <div class="form-section">
+                    <h3 data-lang="hi">बायोमेट्रिक पहचान</h3>
+                    <p class="section-description" data-lang="hi">
+                        यह अटूट पहचान "The Seal of God" के समान है। एक बार दर्ज होने पर यह अपरिवर्तनीय है।
+                    </p>
+
+                    <div class="biometric-container">
+                        <!-- Fingerprint Scanner -->
+                        <div class="biometric-box">
+                            <div class="biometric-header">
+                                <i class="fas fa-fingerprint"></i>
+                                <h4 data-lang="hi">फिंगरप्रिंट स्कैन</h4>
+                            </div>
+                            <div class="scanner-area" id="fingerprintScanner">
+                                <div class="scanner-placeholder" id="fingerprintPlaceholder">
+                                    <i class="fas fa-fingerprint"></i>
+                                    <p data-lang="hi">अंगूठा यहां रखें</p>
+                                </div>
+                                <canvas id="fingerprintCanvas"></canvas>
+                            </div>
+                            <div class="biometric-controls">
+                                <button type="button" class="btn-secondary" onclick="captureFingerprint()">
+                                    <i class="fas fa-camera"></i>
+                                    <span data-lang="hi">स्कैन करें</span>
+                                </button>
+                                <button type="button" class="btn-secondary" onclick="clearFingerprint()">
+                                    <i class="fas fa-trash"></i>
+                                    <span data-lang="hi">साफ करें</span>
+                                </button>
+                            </div>
+                            <div class="biometric-status" id="fingerprintStatus">
+                                <span data-lang="hi">स्कैन नहीं किया गया</span>
+                            </div>
+                        </div>
+
+                        <!-- Face Recognition -->
+                        <div class="biometric-box">
+                            <div class="biometric-header">
+                                <i class="fas fa-user-circle"></i>
+                                <h4 data-lang="hi">चेहरे की पहचान</h4>
+                            </div>
+                            <div class="scanner-area" id="faceScanner">
+                                <div class="scanner-placeholder" id="facePlaceholder">
+                                    <i class="fas fa-user"></i>
+                                    <p data-lang="hi">चेहरा यहां दिखाएं</p>
+                                </div>
+                                <video id="faceVideo"></video>
+                                <canvas id="faceCanvas"></canvas>
+                            </div>
+                            <div class="biometric-controls">
+                                <button type="button" class="btn-secondary" onclick="startFaceCapture()">
+                                    <i class="fas fa-video"></i>
+                                    <span data-lang="hi">कैमरा चालू करें</span>
+                                </button>
+                                <button type="button" class="btn-secondary" onclick="captureFace()">
+                                    <i class="fas fa-camera"></i>
+                                    <span data-lang="hi">फोटो लें</span>
+                                </button>
+                            </div>
+                            <div class="biometric-status" id="faceStatus">
+                                <span data-lang="hi">कैप्चर नहीं किया गया</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Emergency Contacts -->
+                <div class="form-section">
+                    <h3 data-lang="hi">आपातकालीन संपर्क (4 नंबर सुरक्षा चक्र)</h3>
+                    <p class="section-description" data-lang="hi">
+                        लूडो की बिसात की तरह - यदि एक नंबर नहीं मिलता, तो अगला स्वतः प्रयास किया जाएगा।
+                    </p>
+
+                    <div class="contacts-grid">
+                        <div class="contact-card">
+                            <div class="contact-number">1</div>
+                            <div class="contact-form">
+                                <label for="contact1Name" data-lang="hi">अभिभावक/संबंधी का नाम *</label>
+                                <input type="text" id="contact1Name" required placeholder="नाम">
+                                <label for="contact1Phone" data-lang="hi">मोबाइल नंबर *</label>
+                                <input type="tel" id="contact1Phone" required placeholder="+91 98765 43210">
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-number">2</div>
+                            <div class="contact-form">
+                                <label for="contact2Name" data-lang="hi">दूसरा संबंधी</label>
+                                <input type="text" id="contact2Name" placeholder="नाम">
+                                <label for="contact2Phone" data-lang="hi">मोबाइल नंबर</label>
+                                <input type="tel" id="contact2Phone" placeholder="+91 98765 43211">
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-number">3</div>
+                            <div class="contact-form">
+                                <label for="contact3Name" data-lang="hi">तीसरा संबंधी</label>
+                                <input type="text" id="contact3Name" placeholder="नाम">
+                                <label for="contact3Phone" data-lang="hi">मोबाइल नंबर</label>
+                                <input type="tel" id="contact3Phone" placeholder="+91 98765 43212">
+                            </div>
+                        </div>
+
+                        <div class="contact-card">
+                            <div class="contact-number">4</div>
+                            <div class="contact-form">
+                                <label for="contact4Name" data-lang="hi">चौथा संबंधी/पड़ोसी</label>
+                                <input type="text" id="contact4Name" placeholder="नाम">
+                                <label for="contact4Phone" data-lang="hi">मोबाइल नंबर</label>
+                                <input type="tel" id="contact4Phone" placeholder="+91 98765 43213">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span data-lang="hi">डेटा क्लाउड में सुरक्षित करें</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Search Tab -->
+        <div class="tab-content" id="search-tab">
+            <div class="tab-header">
+                <h2 data-lang="hi">खोया व्यक्ति ढूंढें</h2>
+            </div>
+
+            <div class="search-container">
+                <div class="search-methods">
+                    <!-- Photo Upload Search -->
+                    <div class="search-method">
+                        <div class="method-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3 data-lang="hi">फोटो से खोजें</h3>
+                        <p data-lang="hi">खोए व्यक्ति की फोटो अपलोड करें</p>
+                        <div class="upload-area" id="photoUploadArea">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p data-lang="hi">फोटो अपलोड करें या यहां छोड़ें</p>
+                            <input type="file" id="photoUpload" accept="image/*">
+                        </div>
+                        <button class="btn-secondary" onclick="searchByPhoto()" data-lang="hi">
+                            <i class="fas fa-search"></i> खोजें
+                        </button>
+                    </div>
+
+                    <!-- Text Search -->
+                    <div class="search-method">
+                        <div class="method-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <h3 data-lang="hi">नाम से खोजें</h3>
+                        <p data-lang="hi">नाम, उम्र या पता दर्ज करें</p>
+                        <input type="text" id="textSearch" placeholder="खोजें...">
+                        <button class="btn-secondary" onclick="searchByText()" data-lang="hi">
+                            <i class="fas fa-search"></i> खोजें
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Search Results -->
+                <div class="search-results" id="searchResults">
+                    <h3 data-lang="hi">खोज परिणाम</h3>
+                    <div class="results-container" id="resultsContainer">
+                        <p class="empty-state" data-lang="hi">खोज शुरू करने के लिए ऊपर विकल्प चुनें</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Data Tab -->
+        <div class="tab-content" id="data-tab">
+            <div class="tab-header">
+                <h2 data-lang="hi">सभी पंजीकृत डेटा</h2>
+                <div class="tab-controls">
+                    <div class="search-box">
+                        <input type="text" id="filterData" placeholder="फ़िल्टर करें...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <button class="btn-secondary" onclick="refreshData()">
+                        <i class="fas fa-sync-alt"></i>
+                        <span data-lang="hi">रिफ्रेश</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="data-stats">
+                <div class="stat-card">
+                    <i class="fas fa-users"></i>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalRecords">0</span>
+                        <span data-lang="hi">कुल रिकॉर्ड</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-fingerprint"></i>
+                    <div class="stat-info">
+                        <span class="stat-value" id="withBiometrics">0</span>
+                        <span data-lang="hi">बायोमेट्रिक के साथ</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-shield-alt"></i>
+                    <div class="stat-info">
+                        <span class="stat-value">4</span>
+                        <span data-lang="hi">सुरक्षा चक्र</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="records-container" id="recordsContainer">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p data-lang="hi">डेटा लोड हो रहा है...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Tab -->
+        <div class="tab-content" id="about-tab">
+            <div class="tab-header">
+                <h2 data-lang="hi">LAPATA PORTAL के बारे में</h2>
+            </div>
+
+            <div class="about-content">
+                <div class="mission-statement">
+                    <div class="mission-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div class="mission-text">
+                        <h3 data-lang="hi">हमारा मिशन</h3>
+                        <p data-lang="hi">"अक्ल की जीत" - तकनीक का सही उपयोग करके हर उम्र के इंसान की सुरक्षा सुनिश्चित करना।</p>
+                    </div>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-fingerprint"></i>
+                        </div>
+                        <h4 data-lang="hi">The Seal of God</h4>
+                        <p data-lang="hi">फिंगरप्रिंट और चेहरे की पहचान से अटूट सुरक्षा</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4 data-lang="hi">4 नंबर सुरक्षा चक्र</h4>
+                        <p data-lang="hi">लूडो की बिसात की तरह 4 आपातकालीन संपर्क</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <h4 data-lang="hi">सार्वभौमिक पहुंच</h4>
+                        <p data-lang="hi">1 से 100 वर्ष तक के सभी व्यक्तियों के लिए</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 data-lang="hi">सुरक्षित प्रबंधन</h4>
+                        <p data-lang="hi">एडमिन पासवर्ड से संरक्षित डेटा नियंत्रण</p>
+                    </div>
+                </div>
+
+                <div class="admin-info">
+                    <h3 data-lang="hi">प्रशासनिक जानकारी</h3>
+                    <div class="admin-card">
+                        <div class="admin-details">
+                            <h4 data-lang="hi">संस्थापक एवं प्रबंधक</h4>
+                            <p><strong>तामीर अली</strong></p>
+                            <p><i class="fas fa-phone"></i> +91 8797221991</p>
+                            <p><i class="fab fa-whatsapp"></i> WhatsApp: उपलब्ध</p>
+                            <p class="admin-seal">786 तामीर अली</p>
+                        </div>
+                        <div class="admin-rules">
+                            <h4 data-lang="hi">नियम एवं शर्तें</h4>
+                            <ul>
+                                <li data-lang="hi">सभी डेटा गोपनीय रखा जाएगा</li>
+                                <li data-lang="hi">डेटा डिलीट करने के लिए एडमिन पासवर्ड आवश्यक</li>
+                                <li data-lang="hi">यह सेवा पूरी तरह निःशुल्क है</li>
+                                <li data-lang="hi">किसी भी समस्या के लिए WhatsApp पर संपर्क करें</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">786</div>
+                    <div class="footer-logo-text">
+                        <h3>LAPATA PORTAL</h3>
+                        <p data-lang="hi">मानव सुरक्षा - अक्ल की जीत</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <a href="#" onclick="openTab('about')" data-lang="hi">जानकारी</a>
+                    <a href="#" onclick="openTab('register')" data-lang="hi">पंजीकरण</a>
+                    <a href="#" onclick="openTab('search')" data-lang="hi">खोजें</a>
+                </div>
+                <div class="footer-contact">
+                    <p><i class="fas fa-phone"></i> +91 8797221991</p>
+                    <p><i class="fab fa-whatsapp"></i> WhatsApp उपलब्ध</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p data-lang="hi">© 2026 LAPATA PORTAL. सभी अधिकार सुरक्षित। "अक्ल की जीत" के सिद्धांत पर आधारित।</p>
+                <p class="footer-seal">786 तामीर अली</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Admin Delete Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-lang="hi">रिकॉर्ड डिलीट करें</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p data-lang="hi">क्या आप वाकई इस रिकॉर्ड को डिलीट करना चाहते हैं?</p>
+                <p class="warning-text" data-lang="hi">यह क्रिया पूर्ववत नहीं की जा सकती!</p>
+                <div class="password-input">
+                    <label for="adminPassword" data-lang="hi">एडमिन पासवर्ड *</label>
+                    <input type="password" id="adminPassword" placeholder="tamir@lI00769">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()" data-lang="hi">रद्द करें</button>
+                <button class="btn-danger" onclick="confirmDelete()" data-lang="hi">डिलीट करें</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="biometrics.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
