@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAPATA PORTAL v2.0 - 786 तामीर अली</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="assets/icons/icon-192.png">
+    
+    <!-- Face-API.js -->
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    
+    <!-- TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+</head>
+<body>
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/918797221991" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <div class="logo-icon">786</div>
+                <div class="logo-text">
+                    <h1>LAPATA PORTAL v2.0</h1>
+                    <p>अक्ल की जीत - रियलटाइम बायोमेट्रिक पहचान</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="live-search">
+                <i class="fas fa-camera"></i> लाइव सर्च
+            </button>
+            <button class="tab-btn" data-tab="register">
+                <i class="fas fa-user-plus"></i> पंजीकरण
+            </button>
+            <button class="tab-btn" data-tab="database">
+                <i class="fas fa-database"></i> डेटाबेस
+            </button>
+        </div>
+
+        <!-- Live Search Tab -->
+        <div class="tab-content active" id="live-search">
+            <h2><i class="fas fa-search"></i> लाइव बायोमेट्रिक सर्च</h2>
+            
+            <div class="live-camera-container">
+                <div class="camera-view" id="cameraView">
+                    <video id="liveVideo" autoplay playsinline></video>
+                    <canvas id="detectionCanvas"></canvas>
+                </div>
+                
+                <div class="camera-controls">
+                    <button class="btn-primary" id="startCameraBtn">
+                        <i class="fas fa-video"></i> कैमरा चालू करें
+                    </button>
+                    <button class="btn-secondary" id="captureBtn" disabled>
+                        <i class="fas fa-camera"></i> फोटो लें
+                    </button>
+                </div>
+                
+                <div class="match-progress">
+                    <div class="progress-bar" id="matchProgressBar"></div>
+                    <span id="matchPercentage">0% मैच</span>
+                </div>
+            </div>
+
+            <div class="search-results" id="searchResults">
+                <!-- Results will appear here -->
+            </div>
+        </div>
+
+        <!-- Registration Tab -->
+        <div class="tab-content" id="register">
+            <h2><i class="fas fa-fingerprint"></i> नया पंजीकरण</h2>
+            
+            <form id="registrationForm">
+                <div class="form-section">
+                    <h3>व्यक्तिगत जानकारी</h3>
+                    <div class="form-group">
+                        <label for="personName">पूरा नाम *</label>
+                        <input type="text" id="personName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="personAge">उम्र (1-100) *</label>
+                        <input type="number" id="personAge" min="1" max="100" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>बायोमेट्रिक डेटा</h3>
+                    <div class="biometric-capture">
+                        <div class="capture-area" id="faceCaptureArea">
+                            <i class="fas fa-user-circle"></i>
+                            <p>चेहरा कैप्चर करें</p>
+                            <input type="file" id="faceImage" accept="image/*" capture="user">
+                        </div>
+                        <div class="capture-area" id="fingerprintCaptureArea">
+                            <i class="fas fa-fingerprint"></i>
+                            <p>फिंगरप्रिंट कैप्चर करें</p>
+                            <input type="file" id="fingerprintImage" accept="image/*" capture="environment">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>आपातकालीन संपर्क (4 नंबर)</h3>
+                    <div class="emergency-contacts">
+                        <!-- Contact inputs will be added here -->
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary btn-large">
+                    <i class="fas fa-cloud-upload-alt"></i> क्लाउड में सुरक्षित करें
+                </button>
+            </form>
+        </div>
+
+        <!-- Database Tab -->
+        <div class="tab-content" id="database">
+            <h2><i class="fas fa-users"></i> सभी पंजीकृत व्यक्ति</h2>
+            
+            <div class="database-controls">
+                <input type="text" id="searchDatabase" placeholder="नाम से खोजें...">
+                <button class="btn-secondary" id="refreshBtn">
+                    <i class="fas fa-sync-alt"></i> रिफ्रेश
+                </button>
+            </div>
+
+            <div class="records-container" id="recordsContainer">
+                <!-- Records will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-seal">786 तामीर अली</div>
+            <p>अक्ल की जीत - मानव सुरक्षा का डिजिटल कवच</p>
+            <p>संपर्क: +91 8797221991</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-storage-compat.js"></script>
+    
+    <script src="firebase-config.js"></script>
+    <script src="biometrics-v2.js"></script>
+    <script src="storage-manager.js"></script>
+    <script src="main.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js');
+        }
+    </script>
+</body>
+</html>
